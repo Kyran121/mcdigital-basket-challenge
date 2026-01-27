@@ -1,5 +1,7 @@
 package com.rana.mercator;
 
+import com.rana.mercator.discount.BuyOneGetOneDiscount;
+import com.rana.mercator.discount.BuyTwoGetOneDiscount;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,13 +16,14 @@ import static org.assertj.core.api.Assertions.*;
 
 public class BasketTest {
 
+  public static final Item APPLE = Item.builder().name("Apple").price(BigDecimal.valueOf(0.60)).build();
+  public static final Item ORANGE = Item.builder().name("Orange").price(BigDecimal.valueOf(0.25)).build();
+
   private Basket basket;
 
   @BeforeEach
   void setUp() {
-    var apple = Item.builder().name("Apple").price(BigDecimal.valueOf(0.60)).build();
-    var orange = Item.builder().name("Orange").price(BigDecimal.valueOf(0.25)).build();
-    basket = new Basket(Map.of("apple", apple, "orange", orange));
+    basket = new Basket(Map.of("apple", APPLE, "orange", ORANGE));
   }
 
   @Test
@@ -43,5 +46,21 @@ public class BasketTest {
       Arguments.of(new String[]{"apple", "apple"}, BigDecimal.valueOf(1.20)),
       Arguments.of(new String[]{"apple", "apple", "orange", "apple"}, BigDecimal.valueOf(2.05))
     );
+  }
+
+  @Test
+  void getItems() {
+    basket.addItems("apple", "apple", "orange");
+    assertThat(basket.getItems()).containsExactlyInAnyOrderEntriesOf(Map.of(
+      "apple", 2,
+      "orange", 1
+    ));
+  }
+
+  @Test
+  void getTotalCostWithDiscount() {
+    basket.applyOffers(new BuyOneGetOneDiscount(APPLE), new BuyTwoGetOneDiscount(ORANGE));
+    basket.addItems("apple", "apple", "apple", "orange", "orange", "orange");
+    assertThat(basket.getTotalCost()).isEqualByComparingTo(BigDecimal.valueOf(1.70));
   }
 }
