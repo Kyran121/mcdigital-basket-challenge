@@ -1,7 +1,7 @@
-package com.rana.mercator.discount;
+package com.mercatordigital.shoppingcart.discount;
 
-import com.rana.mercator.Basket;
-import com.rana.mercator.Item;
+import com.mercatordigital.shoppingcart.Basket;
+import com.mercatordigital.shoppingcart.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

@@ -1,4 +1,4 @@
-package com.rana.mercator;
+package com.mercatordigital.shoppingcart;
 
 import lombok.Builder;
 

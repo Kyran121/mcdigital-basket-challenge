@@ -1,6 +1,6 @@
-package com.rana.mercator.discount;
+package com.mercatordigital.shoppingcart.discount;
 
-import com.rana.mercator.Basket;
+import com.mercatordigital.shoppingcart.Basket;
 
 import java.math.BigDecimal;
 
